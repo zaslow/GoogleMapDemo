@@ -1,38 +1,42 @@
 body {
-	background-color: lightblue;
+    background-color: lightblue;
 }
 h1 {
-	text-align: center;
+    text-align: center;
+}
+#timeout {
+    float: left;
+    margin-left: 7.5%;
+    font-weight: bold;
 }
 #googleMap {
-	width: 900px;
-	height: 600px;
-	border: 10px groove red;
-	float: left;
-	margin-left: 7.5%;
+    width: 700px;
+    height: 500px;
+    border: 10px groove red;
+    float: left;
+    margin-left: 5%;
+    margin-bottom: 10%;
 }
 #enterCoords {
-	float: right;
-	margin-right: 7.5%;
-	font-size: 1.5em;
+    float: right;
+    margin-right: 5%;
+    font-size: 1.5em;
+    width: 30%;
+    white-space: normal;
 }
-#coordsForm fieldset {
-	width: 75%;
-	white-space: normal;
+#enterCoords ul li {
+    list-style-type: none;
+    margin-top: 2%;
 }
-#coordsForm fieldset ul li {
-	list-style-type: none;
-	margin-top: 2%;
-}
-#submitCoords, #reset {
-	margin-top: 5%;
-	padding: 1%;
-	height: 50px;
-	background-color: pink;
-	font-size: 1.1em;
-	font-weight: bold;
+#submitCoords, #resetCoords {
+    margin-top: 5%;
+    padding: 1%;
+    height: 50px;
+    background-color: pink;
+    font-size: 1.1em;
+    font-weight: bold;
 }
 li.button {
-	margin-right: 5%;
-	display: inline;
+    margin-right: 5%;
+    display: inline;
 }
