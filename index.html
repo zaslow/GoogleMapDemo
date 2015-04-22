@@ -1,84 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title> Geolocation and Google Maps API Demo - Homework #7 </title>
-	<link rel="stylesheet" type="text/css" href="css/mapDemoStyles.css" />
+    <meta charset="utf-8">
+    <title> Geolocation and Google Maps API Demo - Homework #7 </title>
+    <link rel="stylesheet" type="text/css" href="css/mapDemoStyles.css" />
+
+    <!-- Import jQuery -->
+    <script type="text/javascript" src="jquery-2.1.3.js"></script>
 </head>
 
-<body>
+<body onload="navigator.geolocation.getCurrentPosition(initialize);">
 	
-	<header>
-		<h1> Your Current Location </h1>
-	</header>
+    <header>
+        <h1> Your Current Location </h1>
+    </header>
+    
+    <p id="timeout"> Notice: This map will return to your current location automatically after 5 seconds of inactivity. </p>
 	
-	<!-- Google Maps API Script -->	
-	<script src="http://maps.googleapis.com/maps/api/js"></script>
-		
-	<div id="googleMap">
-		<!-- The google map window will load here -->
-	</div>
-	
-	<div id="enterCoords">
-	
-		<form id="coordsForm" method="get" action="">
-			<fieldset>
-				<ul>
-					<li> <p> Or enter different coordinates here: </p> </li>
-					<li> <p> (Use <a href="http://geocoder.us/" target="_blank"> this link </a> to look up coordinates from an address) </p> </li>
-					<li> <span> Latitude: </span> <input id="userLat" type="text" /> </li>
-					<li> <span> Longitude: </span> <input id="userLong" type="text" /> </li>
-					<li class="button"> <input id="submitCoords" type="submit" value="Go" /> </li>
-					<li class="button"> <input id="reset" type="reset" value="Reset Location" /> </li>
-				</ul>
-				
-				<legend> Coordinates </legend>
-			</fieldset>
-		</form>
-	
-	</div>
-	
-	<script>
-		
-	function userCoords() {
-		var userLat = document.getElementById("userLat").value;
-		var userLong = document.getElementById("userLong").value;
-		var userCoords = new google.mapsLatLng(userLat, userLong);
-		var userMapProps = {
-			center: userCoords,
-			zoom: 16,
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-		};
-		
-		var userMap = new google.maps.Map(document.getElementById("googleMap"), userMapProps);
-	}	
-		
-	function initialize(position) {
+    <!-- Google Maps API Script -->	
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
 
-	  	  var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-  
-	  	  var mapProps = {
-	  		center: coords,  
-	  	    zoom: 16,
-	  	    mapTypeId: google.maps.MapTypeId.ROADMAP
-	  	  };
-	  	  var theMap = new google.maps.Map(document.getElementById("googleMap"), mapProps);
+    <div id="googleMap">
+            <!-- The google map window will load here -->
+    </div>
 
-	  	  var mark = new google.maps.Marker({
-	  	      position: coords,
-	  	      map: theMap,
-	  	      title: "You are here (roughly)"
-	  	  });
-	}
+    <div id="enterCoords">
+        <ul>
+            <li> <p> <i> This section is still under maintenance. </i> </p> </li>
+            <li> <p> Or enter different coordinates here: </p> </li>
+            <li> <p> (Use <a href="http://geocoder.us/" target="_blank"> this link </a> to look up coordinates from an address) </p> </li>
+            <li> <span> Latitude: </span> <input id="userLat" type="text" /> </li>
+            <li> <span> Longitude: </span> <input id="userLong" type="text" /> </li>
+            <li class="button"> <input id="submitCoords" type="button" value="Go" /> </li>
+            <li class="button"> <input id="resetCoords" type="button" value="Reset Location" /> </li>
+        </ul>
+    </div>
 
-	if (navigator.geolocation) {
-	  navigator.geolocation.getCurrentPosition(initialize);
-	} else {
-	  error('Geolocation is not supported');
-	}
-		
-	</script>
-	
+    <script>
+
+/* Still bugs with these functions
+ * 
+    function loadScript() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' + '&signed_in=true&callback=userCoords';
+        $('#googleMap').appendChild(script);
+      }
+
+    window.onload = loadScript;
+
+    $('#submitCoords').click(function() {
+        $('#googleMap').navigator.geolocation.getCurrentPosition(userCoords);
+    });
+
+    $('#resetCoords').click(function() {
+        $('#googleMap').navigator.geolocation.getCurrentPosition(initialize);
+    });   
+
+    function userCoords() {
+            var userLat = document.getElementById("userLat").value;
+            var userLong = document.getElementById("userLong").value;
+            var userCoords = new google.mapsLatLng(userLat, userLong);
+            var userMapProps = {
+                center: userCoords,
+                zoom: 16,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var userMap = new google.maps.Map(document.getElementById("googleMap"), userMapProps);
+    }	
+*/    
+    function initialize(position) {
+
+            var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+            var mapProps = {
+                center: coords,  
+                zoom: 16,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var theMap = new google.maps.Map(document.getElementById("googleMap"), mapProps);
+
+            var mark = new google.maps.Marker({
+                position: coords,
+                map: theMap,
+                title: "You are here (roughly)"
+            });
+
+            google.maps.event.addListener(theMap, 'center_changed', function() {
+                // 5 seconds after the center of the map has changed, pan back to the
+                // marker.
+                window.setTimeout(function() {theMap.panTo(mark.getPosition());}, 5000);
+            });
+    }
+
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(initialize);
+    // } else {
+    //   error('Geolocation is not supported');
+    // }
+
+    </script>
+        
 </body>
 
 </html>
