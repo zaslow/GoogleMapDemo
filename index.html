@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> Geolocation and Google Maps API Demo - Homework #7 </title>
+	<link rel="stylesheet" type="text/css" href="css/mapDemoStyles.css" />
+</head>
+
+<body>
+	
+	<header>
+		<h1> Your Current Location </h1>
+	</header>
+	
+	<!-- Google Maps API Script -->	
+	<script src="http://maps.googleapis.com/maps/api/js"></script>
+		
+	<div id="googleMap">
+		<!-- The google map window will load here -->
+	</div>
+	
+	<script>
+		
+	function initialize(position) {
+
+	  var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  
+	  var mapProps = {
+		center: coords,  
+	    zoom: 16,
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	  };
+	  var theMap = new google.maps.Map(document.getElementById("googleMap"), mapProps);
+
+	  var mark = new google.maps.Marker({
+	      position: coords,
+	      map: theMap,
+	      title: "You are here (roughly)"
+	  });
+	}
+
+	if (navigator.geolocation) {
+	  navigator.geolocation.getCurrentPosition(initialize);
+	} else {
+	  error('Geolocation is not supported');
+	}
+		
+	</script>
+	
+</body>
+
+</html>

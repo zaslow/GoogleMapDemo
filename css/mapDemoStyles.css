@@ -1,0 +1,12 @@
+body {
+	background-color: lightblue;
+}
+h1 {
+	text-align: center;
+}
+#googleMap {
+	width: 1000px;
+	height: 600px;
+	margin: 2% auto 0;
+	border: 10px groove red;
+}
