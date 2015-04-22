@@ -19,24 +19,56 @@
 		<!-- The google map window will load here -->
 	</div>
 	
+	<div id="enterCoords">
+	
+		<form id="coordsForm" method="get" action="">
+			<fieldset>
+				<ul>
+					<li> <p> Or enter different coordinates here: </p> </li>
+					<li> <p> (Use <a href="http://geocoder.us/" target="_blank"> this link </a> to look up coordinates from an address) </p> </li>
+					<li> <span> Latitude: </span> <input id="userLat" type="text" /> </li>
+					<li> <span> Longitude: </span> <input id="userLong" type="text" /> </li>
+					<li class="button"> <input id="submitCoords" type="submit" value="Go" /> </li>
+					<li class="button"> <input id="reset" type="reset" value="Reset Location" /> </li>
+				</ul>
+				
+				<legend> Coordinates </legend>
+			</fieldset>
+		</form>
+	
+	</div>
+	
 	<script>
+		
+	function userCoords() {
+		var userLat = document.getElementById("userLat").value;
+		var userLong = document.getElementById("userLong").value;
+		var userCoords = new google.mapsLatLng(userLat, userLong);
+		var userMapProps = {
+			center: userCoords,
+			zoom: 16,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		
+		var userMap = new google.maps.Map(document.getElementById("googleMap"), userMapProps);
+	}	
 		
 	function initialize(position) {
 
-	  var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	  	  var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
   
-	  var mapProps = {
-		center: coords,  
-	    zoom: 16,
-	    mapTypeId: google.maps.MapTypeId.ROADMAP
-	  };
-	  var theMap = new google.maps.Map(document.getElementById("googleMap"), mapProps);
+	  	  var mapProps = {
+	  		center: coords,  
+	  	    zoom: 16,
+	  	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	  	  };
+	  	  var theMap = new google.maps.Map(document.getElementById("googleMap"), mapProps);
 
-	  var mark = new google.maps.Marker({
-	      position: coords,
-	      map: theMap,
-	      title: "You are here (roughly)"
-	  });
+	  	  var mark = new google.maps.Marker({
+	  	      position: coords,
+	  	      map: theMap,
+	  	      title: "You are here (roughly)"
+	  	  });
 	}
 
 	if (navigator.geolocation) {
